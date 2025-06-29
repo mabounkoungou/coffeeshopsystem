@@ -17,7 +17,7 @@
     <div class="dashboard-main-wrapper">
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="../index.html">Evergreen Coffee</a>
+                <a class="navbar-brand" href="../dashboard.php">Evergreen Coffee</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -89,14 +89,14 @@
                                 Admin Functions
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../index.html" aria-expanded="false" data-target="#submenu-dashboard" aria-controls="submenu-dashboard"><i class="fa fa-fw fa-home"></i>Dashboard</a>
+                                <a class="nav-link" href="../dashboard.php" aria-expanded="false" data-target="#submenu-dashboard" aria-controls="submenu-dashboard"><i class="fa fa-fw fa-home"></i>Dashboard</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-bookings" aria-controls="submenu-bookings"><i class="fas fa-fw fa-calendar-alt"></i>Bookings</a>
                                 <div id="submenu-bookings" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="bookings-list.html">All Bookings</a>
+                                            <a class="nav-link" href="bookings-list.php">All Bookings</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="bookings-calendar.html">Calendar View</a>
@@ -105,7 +105,7 @@
                                             <a class="nav-link" href="bookings-add.html">Add New Booking</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="tables-management.html">Table Management</a>
+                                            <a class="nav-link" href="tables-management.php">Table Management</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -115,10 +115,10 @@
                                 <div id="submenu-menu" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="menu-list.html">View All Items</a>
+                                            <a class="nav-link" href="menu-list.php">View All Items</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="menu-add.html">Add New Item</a>
+                                            <a class="nav-link" href="menu-add.php">Add New Item</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="menu-categories.html">Categories</a>
@@ -137,7 +137,7 @@
                                 <div id="submenu-users" class="collapse submenu show" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="customers-list.html">Customers</a>
+                                            <a class="nav-link" href="customers-list.php">Customers</a>
                                         </li>
                                         
                                     </ul>
@@ -178,7 +178,7 @@
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="../dashboard.php" class="breadcrumb-link">Dashboard</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Staff Management</li>
                                         </ol>
                                     </nav>

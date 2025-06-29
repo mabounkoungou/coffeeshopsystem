@@ -24,7 +24,7 @@
     <div class="dashboard-main-wrapper">
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="index.html">Evergreen Coffee</a>
+                <a class="navbar-brand" href="dashboard.php">Evergreen Coffee</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -147,7 +147,7 @@
                                 <div id="submenu-dashboard" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/pages/dashboard-overview.html">Overview</a>
+                                            <a class="nav-link" href="back/concept-master/pages/dashboard-overview.php">Overview</a>
                                         </li>
     
                                     </ul>
@@ -158,11 +158,11 @@
                                 <div id="submenu-bookings" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/pages/bookings-list.html">All Bookings</a>
+                                            <a class="nav-link" href="/pages/bookings-list.php">All Bookings</a>
                                         </li>
                                         
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/pages/tables-management.html">Table Management</a>
+                                            <a class="nav-link" href="/pages/tables-management.php">Table Management</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -172,10 +172,10 @@
                                 <div id="submenu-menu" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="menu-list.html">View All Items</a>
+                                            <a class="nav-link" href="menu-list.php">View All Items</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="menu-add.html">Add New Item</a>
+                                            <a class="nav-link" href="menu-add.php">Add New Item</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="menu-categories.html">Categories</a>
@@ -194,7 +194,7 @@
                                 <div id="submenu-users" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/pages/customers-list.html">Customers</a>
+                                            <a class="nav-link" href="/pages/customers-list.php">Customers</a>
                                         </li>
                                         
                                     </ul>

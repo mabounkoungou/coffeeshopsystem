@@ -18,11 +18,62 @@
 </head>
 
 <body>
+    <div class="modal fade" id="editBookingModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Booking</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editBookingId">
+          <div class="form-group">
+            <label>Booking Code</label>
+            <input type="text" class="form-control" id="editBookingCode">
+          </div>
+          <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" class="form-control" id="editCustomerName">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" id="editBookingDate">
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" class="form-control" id="editBookingTime">
+          </div>
+          <div class="form-group">
+            <label>Guests</label>
+            <input type="number" class="form-control" id="editGuests">
+          </div>
+          <div class="form-group">
+            <label>Table</label>
+            <input type="text" class="form-control" id="editTableNumber">
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control" id="editStatus">
+              <option>Pending</option>
+              <option>Confirmed</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="saveEditBookingBtn">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
     <div class="dashboard-main-wrapper">
         <!-- Header (Maintained exactly as in original) -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="../index.html">Evergreen Coffee</a>
+                <a class="navbar-brand" href="../dashboard.php">Evergreen Coffee</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -96,7 +147,7 @@
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link" href="../index.html" aria-expanded="false" data-target="#submenu-dashboard" aria-controls="submenu-dashboard"><i class="fa fa-fw fa-home"></i>Dashboard</a> 
+                                <a class="nav-link" href="../dashboard.php" aria-expanded="false" data-target="#submenu-dashboard" aria-controls="submenu-dashboard"><i class="fa fa-fw fa-home"></i>Dashboard</a> 
                             </li>
                             
                             <li class="nav-item">
@@ -104,11 +155,11 @@
                                 <div id="submenu-bookings" class="collapse submenu show" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="bookings-list.html">All Bookings</a>
+                                            <a class="nav-link active" href="bookings-list.php">All Bookings</a>
                                         </li>
                                         
                                         <li class="nav-item">
-                                            <a class="nav-link" href="tables-management.html">Table Management</a>
+                                            <a class="nav-link" href="tables-management.php">Table Management</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -118,10 +169,10 @@
                                 <div id="submenu-menu" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="../pages/menu-list.html">View All Items</a>
+                                            <a class="nav-link" href="../pages/menu-list.php">View All Items</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="../pages/menu-add.html">Add New Item</a>
+                                            <a class="nav-link" href="../pages/menu-add.php">Add New Item</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="../pages/menu-categories.html">Categories</a>
@@ -140,7 +191,7 @@
                                 <div id="submenu-users" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="../pages/customers-list.html">Customers</a>
+                                            <a class="nav-link" href="../pages/customers-list.php">Customers</a>
                                         </li>
                                        
                                     </ul>
@@ -168,6 +219,11 @@
             </div>
         </div>
 
+        <!--edit-->
+        <!-- Edit Booking Modal -->
+
+
+
         <!-- Main Content Area - Converted to Bookings List -->
         <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
@@ -180,7 +236,7 @@
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="../dashboard.php" class="breadcrumb-link">Dashboard</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">All Bookings</li>
                                         </ol>
                                     </nav>
@@ -190,13 +246,26 @@
                     </div>
 
                     <!-- Bookings Summary Cards -->
+                     <?php
+                     require 'connection.php';
+ // or your DB config path
+
+// Get today's date
+$today = date('Y-m-d');
+
+// Count today's bookings
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE DATE(booking_date) = :today");
+$stmt->execute(['today' => $today]);
+$todaysBookingCount = $stmt->fetchColumn();
+?>
+
                     <div class="row">
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="text-muted">Today's Bookings</h5>
                                     <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">24</h1>
+                                        <h1 class="mb-1"><?php echo $todaysBookingCount; ?></h1>
                                     </div>
                                     <div class="metric-label d-inline-block float-right text-success font-weight-bold">
                                         <span><i class="fa fa-fw fa-arrow-up"></i></span><span>12%</span>
@@ -205,14 +274,22 @@
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <?php
+require 'connection.php'; // database connection
+
+// Count all bookings
+$stmt = $pdo->query("SELECT COUNT(*) FROM bookings");
+$totalBookings = $stmt->fetchColumn();
+?>
+
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted">Pending Confirmations</h5>
+                                    <h5 class="text-muted">Total Bookings</h5>
                                     <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">5</h1>
+                                        <h1 class="mb-1"><?php echo $totalBookings; ?></h1>
                                     </div>
                                     <div class="metric-label d-inline-block float-right text-warning font-weight-bold">
-                                        <span><i class="fa fa-fw fa-clock"></i></span>
+                                        <span><i class="fa fa-fw fa-sum"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -220,12 +297,21 @@
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="card">
                                 <div class="card-body">
+                                    <?php
+require 'connection.php'; // your DB connection file
+
+// Count pending bookings
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE status = :status");
+$stmt->execute(['status' => 'Pending']);
+$pendingBookings = $stmt->fetchColumn();
+?>
+
                                     <h5 class="text-muted">VIP Reservations</h5>
                                     <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">8</h1>
+                                        <h1 class="mb-1"><?php echo $pendingBookings; ?></h1>
                                     </div>
                                     <div class="metric-label d-inline-block float-right text-info font-weight-bold">
-                                        <span><i class="fa fa-fw fa-crown"></i></span>
+                                        <span><i class="fa fa-fw fa-clock"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +341,7 @@
                                             All Reservations
                                         </div>
                                         <div class="col-6 text-right">
-                                            <a href="bookings-add.html" class="btn btn-primary btn-sm">
+                                            <a href="add_booking.php" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-plus mr-1"></i> New Booking
                                             </a>
                                             <div class="btn-group ml-2">
@@ -289,33 +375,42 @@
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>BK-2025-001</td>
-                                                    <td>Kwame Asante</td>
-                                                    <td>
-                                                        <div>Jul 15, 2025</div>
-                                                        <div class="text-muted small">18:30</div>
-                                                    </td>
-                                                    <td>4</td>
-                                                    <td>T-12 (Window)</td>
-                                                    <td><span class="badge badge-primary">Confirmed</span></td>
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="View">
-                                                                <i class="far fa-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Edit">
-                                                                <i class="far fa-edit"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Cancel">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <!-- Additional booking rows... -->
-                                            </tbody>
+                                            <?php
+require 'connection.php'; // Make sure the path is correct
+
+$stmt = $pdo->query("SELECT * FROM bookings ORDER BY booking_date ASC, booking_time ASC");
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $badgeClass = [
+        'Confirmed' => 'badge-success',
+        'Pending'   => 'badge-warning',
+        'Cancelled' => 'badge-danger'
+    ][$row['status']] ?? 'badge-secondary';
+
+    echo "<tr>
+        <td>{$row['booking_code']}</td>
+        <td>{$row['customer_name']}</td>
+        <td>
+            <div>" . date('M d, Y', strtotime($row['booking_date'])) . "</div>
+            <div class='text-muted small'>" . date('H:i', strtotime($row['booking_time'])) . "</div>
+        </td>
+        <td>{$row['guests']}</td>
+        <td>{$row['table_number']}</td>
+        <td><span class='badge {$badgeClass}'>{$row['status']}</span></td>
+        <td>
+    <div class='btn-group'>
+        <button class='btn btn-sm btn-outline-light edit-btn' data-id='{$row['id']}' title='Edit'>
+            <i class='far fa-edit' style='color:green';></i>
+        </button>
+        <button class='btn btn-sm btn-outline-light delete-btn' data-id='{$row['id']}' title='Cancel'>
+             <i class='far fa-trash-alt' style='color:red';></i>
+        </button>
+    </div>
+</td>
+
+    </tr>";
+}
+?>
+</tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -362,6 +457,196 @@
             // Initialize tooltips
             $('[data-toggle="tooltip"]').tooltip();
         });
+        // Load bookings dynamically (if using dynamic rendering)
+function loadBookings() {
+    $.get('fetch_bookings.php', function (data) {
+        const bookings = JSON.parse(data);
+        let rows = '';
+
+        bookings.forEach((b, i) => {
+            rows += `
+                <tr>
+                    <td>${b.booking_code}</td>
+                    <td>${b.customer_name}</td>
+                    <td>
+                        <div>${b.booking_date}</div>
+                        <div class="text-muted small">${b.booking_time}</div>
+                    </td>
+                    <td>${b.guests}</td>
+                    <td>${b.table_number}</td>
+                    <td><span class="badge badge-${getStatusColor(b.status)}">${b.status}</span></td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-light edit-btn" data-id="${b.id}" data-booking='${JSON.stringify(b)}' title="Edit">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-light delete-btn" data-id="${b.id}" title="Delete">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`;
+        });
+
+        $('#bookingsTable tbody').html(rows);
+    });
+}
+
+function getStatusColor(status) {
+    switch (status) {
+        case 'Confirmed': return 'primary';
+        case 'Pending': return 'warning';
+        case 'Cancelled': return 'danger';
+        default: return 'secondary';
+    }
+}
+
+// Delete booking
+$('#bookingsTable').on('click', '.delete-btn', function () {
+    const id = $(this).data('id');
+    if (confirm("Delete this booking?")) {
+        $.post('delete_booking.php', { id }, function (response) {
+            if (response.success) loadBookings();
+        }, 'json');
+    }
+});
+
+// Populate edit modal
+$('#bookingsTable').on('click', '.edit-btn', function () {
+    const booking = $(this).data('booking');
+    $('#editBookingId').val(booking.id);
+    $('#editBookingCode').val(booking.booking_code);
+    $('#editCustomerName').val(booking.customer_name);
+    $('#editBookingDate').val(booking.booking_date);
+    $('#editBookingTime').val(booking.booking_time);
+    $('#editGuests').val(booking.guests);
+    $('#editTableNumber').val(booking.table_number);
+    $('#editStatus').val(booking.status);
+    $('#editBookingModal').modal('show');
+});
+
+// Save edit
+$('#saveEditBookingBtn').on('click', function () {
+    const data = {
+        id: $('#editBookingId').val(),
+        booking_code: $('#editBookingCode').val(),
+        customer_name: $('#editCustomerName').val(),
+        booking_date: $('#editBookingDate').val(),
+        booking_time: $('#editBookingTime').val(),
+        guests: $('#editGuests').val(),
+        table_number: $('#editTableNumber').val(),
+        status: $('#editStatus').val()
+    };
+
+    $.ajax({
+        url: 'update_booking.php',
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                alert('Booking updated successfully!');
+                $('#editBookingModal').modal('hide');
+                location.reload(); // reload to reflect changes
+            } else {
+                alert('Update failed. Please try again.');
+            }
+        },
+        error: function (xhr) {
+            console.error('Error:', xhr.responseText);
+            alert('AJAX error occurred.');
+        }
+    });
+});
+
+$('#saveEditBookingBtn').on('click', function () {
+    const data = {
+        id: $('#editBookingId').val(),
+        booking_code: $('#editBookingCode').val(),
+        customer_name: $('#editCustomerName').val(),
+        booking_date: $('#editBookingDate').val(),
+        booking_time: $('#editBookingTime').val(),
+        guests: $('#editGuests').val(),
+        table_number: $('#editTableNumber').val(),
+        status: $('#editStatus').val()
+    };
+
+    $.post('update_booking.php', data, function (response) {
+        if (response.success) {
+            $('#editBookingModal').modal('hide');
+            loadBookings();
+        }
+    }, 'json');
+});
+
+// View or Edit Booking
+$('.edit-btn').on('click', function () {
+    const id = $(this).data('id');
+    $.get('fetch_bookings.php', { id }, function (data) {
+        $('#bookingId').val(data.id);
+        $('#customerName').val(data.customer_name);
+        $('#bookingDate').val(data.booking_date);
+        $('#bookingTime').val(data.booking_time);
+        $('#guests').val(data.guests);
+        $('#tableNumber').val(data.table_number);
+        $('#status').val(data.status);
+        $('#editBookingModal').modal('show');
+    }, 'json');
+});
+
+// Handle Update
+$('#bookingForm').submit(function (e) {
+    e.preventDefault();
+    $.post('update_booking.php', $(this).serialize(), function (response) {
+        if (response.success) {
+            $('#editBookingModal').modal('hide');
+            location.reload();
+        }
+    }, 'json');
+});
+
+// Delete Booking
+$('.delete-btn').on('click', function () {
+    const id = $(this).data('id');
+    if (confirm("Are you sure you want to cancel this booking?")) {
+        $.post('delete_booking.php', { id }, function (response) {
+            if (response.success) {
+                location.reload();
+            }
+        }, 'json');
+    }
+});
+$(document).on('click', '.edit-btn', function () {
+    const id = $(this).data('id');
+
+    $.ajax({
+        url: 'fetch_bookings.php',
+        method: 'GET',
+        data: { id: id },
+        dataType: 'json',
+        success: function (data) {
+            if (data) {
+                $('#editBookingId').val(data.id);
+                $('#editBookingCode').val(data.booking_code);
+                $('#editCustomerName').val(data.customer_name);
+                $('#editBookingDate').val(data.booking_date);
+                $('#editBookingTime').val(data.booking_time.substring(0, 5));
+                $('#editGuests').val(data.guests);
+                $('#editTableNumber').val(data.table_number);
+                $('#editStatus').val(data.status);
+                $('#editBookingModal').modal('show');
+            } else {
+                alert('No data received');
+            }
+        },
+        error: function (xhr) {
+            console.log('AJAX Error:', xhr.responseText);
+        }
+    });
+});
+
+
     </script>
+   
 </body>
 </html>
