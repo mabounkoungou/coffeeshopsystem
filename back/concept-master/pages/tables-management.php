@@ -14,6 +14,55 @@
 </head>
 
 <body>
+    <!-- Edit Table Modal -->
+<div class="modal fade" id="editTableModal" tabindex="-1" role="dialog" aria-labelledby="editTableModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form id="editTableForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Table</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editTableId">
+          <div class="form-group">
+            <label for="editTableNumber">Table Number</label>
+            <input type="number" id="editTableNumber" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editTableName">Name</label>
+            <input type="text" id="editTableName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editTableCapacity">Capacity</label>
+            <select id="editTableCapacity" class="form-control" required>
+              <option>1</option><option>2</option><option>4</option><option>6</option><option>8</option><option>10+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editTableLocation">Location</label>
+            <select id="editTableLocation" class="form-control" required>
+              <option>Main Dining</option><option>Outdoor</option><option>Bar Area</option><option>Private Room</option><option>VIP Section</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editTableStatus">Status</label>
+            <select id="editTableStatus" class="form-control" required>
+              <option>Available</option><option>Reserved</option><option>Occupied</option><option>Maintenance</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveEditTableBtn">Save Changes</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
     <div class="dashboard-main-wrapper">
         <!-- Header (Maintained exactly as in original) -->
         <div class="dashboard-header">
@@ -237,81 +286,49 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Window View</td>
-                                                    <td>4</td>
-                                                    <td>Main Dining</td>
-                                                    <td><span class="badge badge-success">Available</span></td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Edit">
-                                                            <i class="far fa-edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Delete">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Patio Table</td>
-                                                    <td>2</td>
-                                                    <td>Outdoor</td>
-                                                    <td><span class="badge badge-success">Available</span></td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Edit">
-                                                            <i class="far fa-edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Delete">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>VIP Booth</td>
-                                                    <td>6</td>
-                                                    <td>Private Area</td>
-                                                    <td><span class="badge badge-warning">Reserved</span></td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Edit">
-                                                            <i class="far fa-edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Delete">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Bar Counter</td>
-                                                    <td>1</td>
-                                                    <td>Bar Area</td>
-                                                    <td><span class="badge badge-success">Available</span></td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Edit">
-                                                            <i class="far fa-edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Delete">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Family Table</td>
-                                                    <td>8</td>
-                                                    <td>Main Dining</td>
-                                                    <td><span class="badge badge-danger">Occupied</span></td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Edit">
-                                                            <i class="far fa-edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-light" data-toggle="tooltip" title="Delete">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                              <?php
+require 'connection.php'; // Path to DB connection file
+
+$stmt = $pdo->prepare("SELECT * FROM tables ORDER BY table_number ASC");
+$stmt->execute();
+$tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($tables as $table) {
+    $badgeClass = '';
+    switch (strtolower($table['table_status'])) {
+        case 'available':
+            $badgeClass = 'badge-success';
+            break;
+        case 'reserved':
+            $badgeClass = 'badge-warning';
+            break;
+        case 'occupied':
+            $badgeClass = 'badge-danger';
+            break;
+        default:
+            $badgeClass = 'badge-secondary';
+            break;
+    }
+
+    echo "<tr>
+        <td>{$table['table_number']}</td>
+        <td>{$table['table_name']}</td>
+        <td>{$table['table_capacity']}</td>
+        <td>{$table['table_location']}</td>
+        <td><span class='badge {$badgeClass}'>{$table['table_status']}</span></td>
+        <td>
+            <button class='btn btn-sm btn-outline-light edit-btn' data-id='{$table['id']}' data-toggle='tooltip' title='Edit'>
+                <i class='far fa-edit'></i>
+            </button>
+            <button class='btn btn-sm btn-outline-light delete-btn' data-id='{$table['id']}' data-toggle='tooltip' title='Delete'>
+                <i class='far fa-trash-alt'></i>
+            </button>
+        </td>
+    </tr>";
+}
+?>
+                                               
+                                               
                                             </tbody>
                                         </table>
                                     </div>
@@ -331,50 +348,50 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="tableNumber">Table Number</label>
-                                            <input type="number" class="form-control" id="tableNumber" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tableName">Table Name/Description</label>
-                                            <input type="text" class="form-control" id="tableName" placeholder="e.g. Window View, VIP Booth">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tableCapacity">Capacity</label>
-                                            <select class="form-control" id="tableCapacity">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>4</option>
-                                                <option>6</option>
-                                                <option>8</option>
-                                                <option>10+</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tableLocation">Location</label>
-                                            <select class="form-control" id="tableLocation">
-                                                <option>Main Dining</option>
-                                                <option>Outdoor</option>
-                                                <option>Bar Area</option>
-                                                <option>Private Room</option>
-                                                <option>VIP Section</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tableStatus">Initial Status</label>
-                                            <select class="form-control" id="tableStatus">
-                                                <option>Available</option>
-                                                <option>Reserved</option>
-                                                <option>Occupied</option>
-                                                <option>Maintenance</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
+                                   <form method="POST" action="add_table.php" id="addTableForm">
+    <div class="form-group">
+        <label for="tableNumber">Table Number</label>
+        <input type="number" class="form-control" id="tableNumber" name="tableNumber" required>
+    </div>
+    <div class="form-group">
+        <label for="tableName">Table Name/Description</label>
+        <input type="text" class="form-control" id="tableName" name="tableName" placeholder="e.g. Window View, VIP Booth" required>
+    </div>
+    <div class="form-group">
+        <label for="tableCapacity">Capacity</label>
+        <select class="form-control" id="tableCapacity" name="tableCapacity" required>
+            <option>1</option>
+            <option>2</option>
+            <option>4</option>
+            <option>6</option>
+            <option>8</option>
+            <option>10+</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="tableLocation">Location</label>
+        <select class="form-control" id="tableLocation" name="tableLocation" required>
+            <option>Main Dining</option>
+            <option>Outdoor</option>
+            <option>Bar Area</option>
+            <option>Private Room</option>
+            <option>VIP Section</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="tableStatus">Initial Status</label>
+        <select class="form-control" id="tableStatus" name="tableStatus" required>
+            <option>Available</option>
+            <option>Reserved</option>
+            <option>Occupied</option>
+            <option>Maintenance</option>
+        </select>
+    </div>
+</form>
+  </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary">Save Table</button>
+                                    <button type="button" class="btn btn-primary" id="saveTableBtn">Save Table</button>
                                 </div>
                             </div>
                         </div>
@@ -406,18 +423,155 @@
     <script src="../assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="../assets/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/libs/js/main-js.js"></script>
-    
     <script>
-        $(document).ready(function() {
-            // Initialize DataTable
-            $('#tablesList').DataTable({
-                "order": [[0, "asc"]],
-                "responsive": true
-            });
-            
-            // Initialize tooltips
-            $('[data-toggle="tooltip"]').tooltip();
+    $('#saveTableBtn').on('click', function () {
+    const data = {
+        tablenumber: $('#tableNumber').val(),
+        tablename: $('#tableName').val(),
+        tablecapacity: $('#tableCapacity').val(),
+        tablelocation: $('#tableLocation').val(),
+        tablestatus: $('#tableStatus').val()
+    };
+
+    $.ajax({
+        url: 'add_table.php',
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                alert("✅ Table added successfully!");
+                $('#addTableModal').modal('hide');
+                location.reload();
+            } else {
+                alert("❌ Failed: " + (response.error || "Something went wrong."));
+            }
+        },
+        error: function () {
+            alert("❌ Server error. Please check the console.");
+        }
+    });
+});
+
+$('.edit-btn').on('click', function () {
+    const id = $(this).data('id');
+
+    $.get('get_table.php', { id }, function (data) {
+        if (data) {
+            $('#editTableId').val(data.id);
+            $('#editTableNumber').val(data.table_number);
+            $('#editTableName').val(data.table_name);
+            $('#editTableCapacity').val(data.table_capacity);
+            $('#editTableLocation').val(data.table_location);
+            $('#editTableStatus').val(data.table_status);
+            $('#editTableModal').modal('show');
+        } else {
+            alert("Table not found.");
+        }
+    }, 'json');
+});
+
+$('#saveEditTableBtn').on('click', function () {
+    const data = {
+        id: $('#editTableId').val(),
+        tablenumber: $('#editTableNumber').val(),
+        tablename: $('#editTableName').val(),
+        tablecapacity: $('#editTableCapacity').val(),
+        tablelocation: $('#editTableLocation').val(),
+        tablestatus: $('#editTableStatus').val()
+    };
+
+    $.ajax({
+        url: 'update_table.php',
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                alert("Table updated!");
+                $('#editTableModal').modal('hide');
+                location.reload();
+            } else {
+                alert("Update failed: " + (response.error || "Unknown error"));
+            }
+        },
+        error: function () {
+            alert("Server error.");
+        }
+    });
+});
+$('.edit-btn').on('click', function () {
+    const id = $(this).data('id');
+
+    $.get('get_table.php', { id }, function (data) {
+        if (data) {
+            $('#editTableId').val(data.id);
+            $('#editTableNumber').val(data.table_number);
+            $('#editTableName').val(data.table_name);
+            $('#editTableCapacity').val(data.table_capacity);
+            $('#editTableLocation').val(data.table_location);
+            $('#editTableStatus').val(data.table_status);
+            $('#editTableModal').modal('show');
+        } else {
+            alert("Table not found.");
+        }
+    }, 'json');
+});
+
+$('#saveEditTableBtn').on('click', function () {
+    const data = {
+        id: $('#editTableId').val(),
+        tablenumber: $('#editTableNumber').val(),
+        tablename: $('#editTableName').val(),
+        tablecapacity: $('#editTableCapacity').val(),
+        tablelocation: $('#editTableLocation').val(),
+        tablestatus: $('#editTableStatus').val()
+    };
+
+    $.ajax({
+        url: 'update_table.php',
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                alert("Table updated!");
+                $('#editTableModal').modal('hide');
+                location.reload();
+            } else {
+                alert("Update failed: " + (response.error || "Unknown error"));
+            }
+        },
+        error: function () {
+            alert("Server error.");
+        }
+    });
+});
+$(document).on('click', '.delete-btn', function () {
+    const tableId = $(this).data('id');
+
+    if (confirm("Are you sure you want to delete this table?")) {
+        $.ajax({
+            url: 'delete_table.php',
+            method: 'POST',
+            data: { id: tableId },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    alert("Table deleted successfully!");
+                    location.reload();
+                } else {
+                    alert("Failed to delete table: " + response.error);
+                }
+            },
+            error: function () {
+                alert("Server error.");
+            }
         });
+    }
+});
+
+
     </script>
 </body>
 </html>
