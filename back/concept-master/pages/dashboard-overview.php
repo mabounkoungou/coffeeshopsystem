@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 
@@ -14,6 +16,8 @@
     <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
     <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
     <title>Evergreen Coffee</title>
+    <?php   include 'connection.php';
+?>
 </head>
 
 <body>
@@ -138,10 +142,17 @@
                             <li class="nav-divider">
                                 Admin Functions
                             </li>
-                            
-                            <a class="nav-link active" href=""  aria-expanded="false" data-target="#submenu-dashboard" aria-controls="submenu-dashboard"><i class="fa fa-fw fa-home"></i>Dashboard</a> 
-                                
-                            
+                            <li class="nav-item ">
+                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-dashboard" aria-controls="submenu-dashboard"><i class="fa fa-fw fa-home"></i>Dashboard <span class="badge badge-success">New</span></a>
+                                <div id="submenu-dashboard" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/pages/dashboard-overview.html">Overview</a>
+                                        </li>
+    
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-bookings" aria-controls="submenu-bookings"><i class="fas fa-fw fa-calendar-alt"></i>Bookings</a>
                                 <div id="submenu-bookings" class="collapse submenu" style="">
@@ -149,6 +160,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="/pages/bookings-list.html">All Bookings</a>
                                         </li>
+                                        
                                         <li class="nav-item">
                                             <a class="nav-link" href="/pages/tables-management.html">Table Management</a>
                                         </li>
@@ -185,7 +197,6 @@
                                             <a class="nav-link" href="/pages/customers-list.html">Customers</a>
                                         </li>
                                         
-                                        
                                     </ul>
                                 </div>
                             </li>
@@ -197,16 +208,16 @@
                                             <a class="nav-link" href="/pages/reports-bookings.html">Booking Reports</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="reports-sales.html">Sales Reports</a>
+                                            <a class="nav-link" href="/pages/reports-sales.html">Sales Reports</a>
                                         </li>
-                                       
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/pages/reports-customer.html">Customer Insights</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
                            
-                            <li class="nav-item">
-                                <a class="nav-link" href="/pages/customer-feedback.html"><i class="fas fa-fw fa-comment-alt"></i>Customer Feedback</a>
-                            </li>
+                           
                         </ul>
                     </div>
                 </nav>
@@ -384,50 +395,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header">Top Selling Products</h5>
-                                    <div class="card-body">
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">GH₵ 8,750</h1>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>9.5%</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body border-top">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                                    <h6 class="mb-0 text-muted">Spicy Jollof Rice</h6>
-                                                    <span class="badge badge-success">+ GH₵ 2,500</span>
-                                                </div>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                                    <h6 class="mb-0 text-muted">Waakye with Chicken</h6>
-                                                    <span class="badge badge-secondary">+ GH₵ 1,800</span>
-                                                </div>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                                    <h6 class="mb-0 text-muted">Banku & Tilapia</h6>
-                                                    <span class="badge badge-info">+ GH₵ 1,200</span>
-                                                </div>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          
                             </div>
 
                         
