@@ -301,83 +301,32 @@
                                             <table class="table">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
-                                                        <th class="border-0">#</th>
-                                                        <th class="border-0">Image</th>
-                                                        <th class="border-0">Product Name</th>
-                                                        <th class="border-0">Product Id</th>
-                                                        <th class="border-0">Quantity</th>
-                                                        <th class="border-0">Price</th>
-                                                        <th class="border-0">Order Time</th>
-                                                        <th class="border-0">Customer</th>
-                                                        <th class="border-0">Status</th>
+                                                        <th class="border-0">Email</th>
+                                                        <th class="border-0">Name</th>
+                                                        <th class="border-0"> Phone Number</th>
+                                                        <th class="border-0">Message</th>
+                                                        <th class="border-0">Date</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <?php
+require 'connection.php';
+
+$stmt = $pdo->query("SELECT * FROM messages ORDER BY created_at DESC");
+$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Spicy Jollof Rice</td>
-                                                        <td>PROD001</td>
-                                                        <td>2</td>
-                                                        <td>GH₵ 80.00</td>
-                                                        <td>2025-06-25 13:45:00</td>
-                                                        <td>Patricia J. King</td>
-                                                        <td><span class="badge-dot badge-brand mr-1"></span>In Transit</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Waakye with Chicken</td>
-                                                        <td>PROD002</td>
-                                                        <td>1</td>
-                                                        <td>GH₵ 180.00</td>
-                                                        <td>2025-06-25 12:30:00</td>
-                                                        <td>Rachel J. Wicker</td>
-                                                        <td><span class="badge-dot badge-success mr-1"></span>Delivered</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="assets/images/product-pic-3.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Banku & Tilapia</td>
-                                                        <td>PROD003</td>
-                                                        <td>1</td>
-                                                        <td>GH₵ 82.00</td>
-                                                        <td>2025-06-25 11:15:00</td>
-                                                        <td>Michael K. Ledford</td>
-                                                        <td><span class="badge-dot badge-success mr-1"></span>Delivered</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="assets/images/product-pic-4.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Kelewele & Groundnut</td>
-                                                        <td>PROD004</td>
-                                                        <td>3</td>
-                                                        <td>GH₵ 45.00</td>
-                                                        <td>2025-06-25 10:00:00</td>
-                                                        <td>Sarah L. Johnson</td>
-                                                        <td><span class="badge-dot badge-brand mr-1"></span>In Transit</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Red-Red with Fried Plantain</td>
-                                                        <td>PROD005</td>
-                                                        <td>1</td>
-                                                        <td>GH₵ 70.00</td>
-                                                        <td>2025-06-25 09:30:00</td>
-                                                        <td>David B. Williams</td>
-                                                        <td><span class="badge-dot badge-danger mr-1"></span>Cancelled</td>
-                                                    </tr>
+                                                        <?php foreach ($messages as $msg): ?>
+                                                       <td><?= htmlspecialchars($msg['name']) ?></td>
+            <td><?= htmlspecialchars($msg['email']) ?></td>
+            <td><?= htmlspecialchars($msg['phone']) ?></td>
+            <td><?= nl2br(htmlspecialchars($msg['message'])) ?></td>
+            <td><?= $msg['created_at'] ?></td>
+
+                                                        </tr>
+                                                         <?php endforeach; ?>
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>

@@ -233,7 +233,7 @@
     <section class="book" id="book">
         <h1 class="heading">booking <span>reserve a table</span></h1>
 
-        <form action="">
+        <form action="send_message.php">
             <input type="text" placeholder="Name" class="box">
             <input type="email" placeholder="Email" class="box">
             <input type="number" placeholder="Number" class="box">
@@ -300,7 +300,84 @@
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
     <!-- Custom JS File Link  -->
-    <script src="script.js"></script>
+    <script src="script.js">
+        // --- JavaScript: table.js ---
+$(document).ready(function () {
+    $('#saveTableBtn').on('click', function () {
+        const data = {
+            tablenumber: $('#tableNumber').val(),
+            tablename: $('#tableName').val(),
+            tablecapacity: $('#tableCapacity').val(),
+            tablelocation: $('#tableLocation').val(),
+            tablestatus: $('#tableStatus').val()
+        };
+
+        $.post('add_table.php', data, function (response) {
+            if (response.success) {
+                alert('Table added successfully');
+                $('#addTableModal').modal('hide');
+                location.reload();
+            } else {
+                alert(response.message || 'Add failed');
+            }
+        }, 'json');
+    });
+
+    $(document).on('click', '.delete-btn', function () {
+        if (!confirm('Are you sure you want to delete this table?')) return;
+
+        $.post('delete_table.php', { id: $(this).data('id') }, function (response) {
+            if (response.success) {
+                alert('Deleted successfully');
+                location.reload();
+            } else {
+                alert('Delete failed');
+            }
+        }, 'json');
+    });
+
+    $('#saveEditTableBtn').on('click', function () {
+        const data = {
+            id: $('#editTableId').val(),
+            table_number: $('#editTableNumber').val(),
+            table_name: $('#editTableName').val(),
+            table_capacity: $('#editTableCapacity').val(),
+            table_location: $('#editTableLocation').val(),
+            table_status: $('#editTableStatus').val()
+        };
+
+        $.post('update_table.php', data, function (response) {
+            if (response.success) {
+                alert('Updated successfully');
+                $('#editTableModal').modal('hide');
+                location.reload();
+            } else {
+                alert('Update failed');
+            }
+        }, 'json');
+    });
+
+    $('#contactForm').on('submit', function (e) {
+        e.preventDefault();
+        const formData = {
+            name: $('#contactName').val(),
+            email: $('#contactEmail').val(),
+            phone: $('#contactPhone').val(),
+            message: $('#contactMessage').val()
+        };
+
+        $.post('send_message.php', formData, function (res) {
+            if (res.success) {
+                alert('Message sent successfully!');
+                $('#contactForm')[0].reset();
+            } else {
+                alert(res.message);
+            }
+        }, 'json');
+    });
+});
+
+    </script>
 
 </body>
 
