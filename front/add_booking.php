@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Save Booking</button>
-        <a href="bookings-list.php" class="btn btn-secondary">Cancel</a>
+        <a href="index.php" class="btn btn-danger">Cancel</a>
     </form>
 </div>
 
