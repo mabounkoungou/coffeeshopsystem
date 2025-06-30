@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    
 
     <!-- HEADER -->
     <header class="header">
@@ -34,7 +35,7 @@
             <a href="#book">book</a>
         </nav>
 
-        <a href="#" class="btn">book a table</a>
+        <a href="" class="btn">book a table</a>
     </header>
 
     <!-- HOME -->
